@@ -2,10 +2,14 @@ package auto;
 
 import base.BaseTest;
 import com.microsoft.playwright.*;
+import io.qameta.allure.Allure;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInfo;
+import org.junit.jupiter.api.extension.ExtensionContext;
 
+import java.io.ByteArrayInputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
@@ -46,8 +50,22 @@ public class CartTest {
         return Paths.get(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss")) + "/" + filename);
     }
 
+    private boolean testFailed(TestInfo testInfo) {
+        return testInfo.getTags().contains("failed");
+    }
+
     @AfterEach
-    void teardown() {
+    void teardown(TestInfo testInfo) {
+        if (testFailed(testInfo)) {
+            byte[] screenshot = page.screenshot();
+            Allure.addAttachment(
+                    "Screenshot on Failure",
+                    "image/png",
+                    new ByteArrayInputStream(screenshot),
+                    ".png"
+            );
+        }
+        context.close();
         browser.close();
         playwright.close();
     }
