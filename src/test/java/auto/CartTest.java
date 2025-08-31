@@ -10,10 +10,14 @@ import org.junit.jupiter.api.TestInfo;
 import org.junit.jupiter.api.extension.ExtensionContext;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class CartTest {
 
@@ -29,6 +33,15 @@ public class CartTest {
         context = browser.newContext(new Browser.NewContextOptions()
                 .setRecordVideoDir(Paths.get("videos/")));
         page = context.newPage();
+    }
+
+    @Test
+    void testHomePageVisual() throws IOException {
+        page.navigate("https://the-internet.herokuapp.com/add_remove_elements/");
+        Path actual = Paths.get("actual.png");
+        page.screenshot(new Page.ScreenshotOptions().setPath(actual));
+        long mismatch = Files.mismatch(actual, Paths.get("src/test/java/auto/expected.png"));
+        assertThat(mismatch).isEqualTo(-1);
     }
 
     @Test
