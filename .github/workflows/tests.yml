@@ -37,13 +37,6 @@ jobs:
       - name: Run tests
         run: mvn test -Dtest=ComparisonScreenshotsTest
 
-      - name: Upload generated screenshot
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-         name: visual-test-screenshot
-         path: src/test/java/auto/expected.png
-
       - name: Upload test results
         if: always()
         uses: actions/upload-artifact@v4

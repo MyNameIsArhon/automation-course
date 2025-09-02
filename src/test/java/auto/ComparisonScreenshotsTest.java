@@ -30,10 +30,10 @@ public class ComparisonScreenshotsTest {
     @Test
     void testHomePageVisual() throws IOException {
         page.navigate("https://the-internet.herokuapp.com/add_remove_elements/");
-        Path actual = Paths.get("src/test/java/auto/expected.png");
+        Path actual = Paths.get("actual.png");
         page.screenshot(new Page.ScreenshotOptions().setPath(actual));
-//        long mismatch = Files.mismatch(actual, Paths.get("src/test/java/auto/expected.png"));
-//        assertThat(mismatch).isEqualTo(-1);
+        long mismatch = Files.mismatch(actual, Paths.get("src/test/java/auto/expected.png"));
+        assertThat(mismatch).isEqualTo(-1);
     }
 
     @AfterEach
