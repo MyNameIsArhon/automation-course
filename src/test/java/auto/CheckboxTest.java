@@ -62,7 +62,7 @@ public class CheckboxTest {
     private void verifyToggledState() {
         Assertions.assertAll(
                 () -> Assertions.assertTrue(page.locator("#checkboxes input").first().isChecked()),
-                () -> Assertions.assertTrue(page.locator("#checkboxes input").last().isChecked())
+                () -> Assertions.assertFalse(page.locator("#checkboxes input").last().isChecked())
         );
     }
 
