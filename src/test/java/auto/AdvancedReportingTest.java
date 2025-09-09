@@ -60,7 +60,7 @@ public class AdvancedReportingTest {
             String alertMessage = foJsAlert();
             verifyResultText();
             captureSuccessScreenshot();
-            logExtent(Status.PASS, "Тест успешно завершен с сообщением: " + alertMessage);
+            test.log(Status.PASS, "Тест успешно завершен с сообщением: " + alertMessage);
         } catch (AssertionFailedError error) {
             forTestFailure();
         }
@@ -72,7 +72,7 @@ public class AdvancedReportingTest {
                 new Page.NavigateOptions().setWaitUntil(WaitUntilState.DOMCONTENTLOADED));
         assertEquals("JavaScript Alerts", page.locator("h3").textContent(),
                 "Страница должна содержать заголовок 'JavaScript Alerts'");
-        logExtent(Status.INFO, "Страница с алертами загружена");
+        test.log(Status.INFO, "Страница с алертами загружена");
     }
 
     @Step("Обработать JS Alert")
@@ -87,12 +87,12 @@ public class AdvancedReportingTest {
         });
 
         page.click("button[onclick='jsAlert()']");
-        logExtent(Status.INFO, "Клик по кнопке JS Alert выполнен");
+        test.log(Status.INFO, "Клик по кнопке JS Alert выполнен");
 
         try {
             return alertMessageFuture.get(10, TimeUnit.SECONDS);
         } catch (Exception e) {
-            logExtent(Status.WARNING, "Ошибка при обработке алерта: " + e.getMessage());
+            test.log(Status.WARNING, "Ошибка при обработке алерта: " + e.getMessage());
             return "Не удалось получить текст алерта";
         }
     }
@@ -105,7 +105,7 @@ public class AdvancedReportingTest {
         String resultText = page.locator("#result").textContent();
         assertEquals("You successfully clicked an alert", resultText,
                 "Текст результата должен соответствовать ожидаемому");
-        logExtent(Status.INFO, "Результирующий текст проверен: " + resultText);
+        test.log(Status.INFO, "Результирующий текст проверен: " + resultText);
     }
 
     private void captureSuccessScreenshot() {
@@ -117,9 +117,9 @@ public class AdvancedReportingTest {
 
             test.pass("Скриншот успешного выполнения",
                     MediaEntityBuilder.createScreenCaptureFromPath(String.valueOf(screenshotPath)).build());
-            logExtent(Status.INFO, "Скриншот успешного выполнения сохранен в: " + screenshotPath);
+            test.log(Status.INFO, "Скриншот успешного выполнения сохранен в: " + screenshotPath);
         } catch (IOException e) {
-            logExtent(Status.WARNING, "Не удалось сохранить скриншот: " + e.getMessage());
+            test.log(Status.WARNING, "Не удалось сохранить скриншот: " + e.getMessage());
         }
     }
 
@@ -129,13 +129,9 @@ public class AdvancedReportingTest {
         try (InputStream failureStream = new ByteArrayInputStream(failureScreenshot)) {
             Allure.addAttachment("Ошибка теста", "image/png", failureStream, ".png");
         } catch (Exception ex) {
-            logExtent(Status.WARNING, "Не удалось добавить скриншот ошибки в Allure: " + ex.getMessage());
+            test.log(Status.WARNING, "Не удалось добавить скриншот ошибки в Allure: " + ex.getMessage());
         }
 
-    }
-
-    private void logExtent(Status status, String message) {
-        test.log(status, message);
     }
 
     @AfterEach
