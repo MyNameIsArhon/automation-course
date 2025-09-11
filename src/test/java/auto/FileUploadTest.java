@@ -26,7 +26,7 @@ public class FileUploadTest {
 
     @BeforeAll
     static void setupClass() throws Exception {
-        BufferedImage image = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
+        BufferedImage image = new BufferedImage(100, 100, BufferedImage.TYPE_INT_RGB);
         image.setRGB(0, 0, 0xFF0000);
         testFile = new File(testFileName);
         ImageIO.write(image, "png", testFile);
