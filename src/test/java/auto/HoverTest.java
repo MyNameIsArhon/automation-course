@@ -5,7 +5,6 @@ import com.microsoft.playwright.options.WaitUntilState;
 import org.junit.jupiter.api.*;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class HoverTest {
 
