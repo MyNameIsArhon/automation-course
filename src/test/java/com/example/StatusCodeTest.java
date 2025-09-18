@@ -1,8 +1,8 @@
 package com.example;
 
-import com.example.config.EnvironmentConfig;
+import com.example.config.StatusConfig;
 import com.microsoft.playwright.*;
-import org.junit.jupiter.api.BeforeEach;
+import org.aeonbits.owner.ConfigFactory;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -10,10 +10,11 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+
 @Execution(ExecutionMode.CONCURRENT)
 public class StatusCodeTest {
 
-    private static final EnvironmentConfig config = new EnvironmentConfig("dev");
+    private static final StatusConfig config = ConfigFactory.create(StatusConfig.class, System.getenv());
 
     @ParameterizedTest
     @CsvSource({
@@ -28,7 +29,7 @@ public class StatusCodeTest {
              BrowserContext context = browser.newContext();
              Page page = context.newPage()) {
 
-            Response response = page.navigate(config.getProperty("baseUrl") + path);
+            Response response = page.navigate(config.baseUrl() + path);
             assertThat(response.status())
                     .as("Ожидался статус код: %d", statusCode)
                     .isEqualTo(statusCode);
