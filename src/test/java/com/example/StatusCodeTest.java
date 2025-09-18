@@ -1,6 +1,6 @@
 package com.example;
 
-import com.example.config.StatusConfig;
+import com.example.config.EnvironmentConfig;
 import com.microsoft.playwright.*;
 import org.aeonbits.owner.ConfigFactory;
 import org.junit.jupiter.api.parallel.Execution;
@@ -14,7 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Execution(ExecutionMode.CONCURRENT)
 public class StatusCodeTest {
 
-    private static final StatusConfig config = ConfigFactory.create(StatusConfig.class, System.getenv());
+    private static final EnvironmentConfig config = ConfigFactory.create(EnvironmentConfig.class, System.getenv());
 
     @ParameterizedTest
     @CsvSource({
