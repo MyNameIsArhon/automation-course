@@ -5,8 +5,8 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
-    env:
-      env: dev
+#    env:
+#      env: dev
 
     steps:
       - uses: actions/checkout@v4
