@@ -34,7 +34,7 @@ public class StatusCodeApiUiTest {
                 new Page.NavigateOptions().setWaitUntil(WaitUntilState.DOMCONTENTLOADED));
     }
 
-    @Test
+    @ParameterizedTest
     @CsvSource({
             "200",
             "404"
