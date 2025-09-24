@@ -6,7 +6,7 @@ on:
     paths:
       - 'Dockerfile'
       - 'docker-compose.yml'
-      - 'src/test/java/auto/ParallelTests.java'
+      - 'src/test/java/auto/StatusCodeApiUiTest.java'
 
 jobs:
   docker-tests:
