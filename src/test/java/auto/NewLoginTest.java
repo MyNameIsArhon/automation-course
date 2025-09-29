@@ -4,10 +4,12 @@ import com.microsoft.playwright.*;
 import com.microsoft.playwright.options.Cookie;
 import org.junit.jupiter.api.*;
 
+import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.List;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class NewLoginTest {
 
@@ -36,7 +38,15 @@ public class NewLoginTest {
     @Test
     void testSecure() {
 
+        long startTime = System.currentTimeMillis();
         page.navigate("https://the-internet.herokuapp.com/secure");
+        long duration = System.currentTimeMillis() - startTime;
+        if (duration > 3000) {
+            context.tracing().stop(new Tracing.StopOptions()
+                    .setPath(Paths.get("slow-login-trace.zip")));
+        }
+        assertTrue(duration < 3000,
+                "Ожидалось, что тест пройдет менее чем за 3 сек., но был пройден за %.2f".formatted(duration / 1000.0));
         assertThat(page.locator("h2")).hasText("Secure Area");
     }
 

@@ -6,6 +6,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.nio.file.Paths;
+
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class MobileDynamicControlsTest {
@@ -34,13 +36,21 @@ public class MobileDynamicControlsTest {
 
     @Test
     void testInputEnabling() {
+
+        long startTime = System.currentTimeMillis();
         page.navigate("https://the-internet.herokuapp.com/dynamic_controls",
                 new Page.NavigateOptions().setWaitUntil(WaitUntilState.DOMCONTENTLOADED));
         Locator enableButton = page.locator("button:text('Enable')");
         Locator inputField = page.locator("[type='text']");
         enableButton.click();
-
         page.waitForCondition(inputField::isEnabled);
+        long duration = System.currentTimeMillis() - startTime;
+        if (duration > 3000) {
+            context.tracing().stop(new Tracing.StopOptions()
+                    .setPath(Paths.get("slow-login-trace.zip")));
+        }
+        assertTrue(duration < 3000,
+                "Ожидалось, что тест пройдет менее чем за 3 сек., но был пройден за %.2f".formatted(duration / 1000.0));
         assertTrue(inputField.isEnabled());
     }
 
