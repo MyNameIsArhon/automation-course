@@ -1,27 +1,43 @@
 package base;
 
 import com.microsoft.playwright.*;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.extension.ExtendWith;
+import reportExtension.CustomReportExtension;
+import reportExtension.HtmlReportGenerator;
 
+@ExtendWith(CustomReportExtension.class)
 public class BaseTest {
-    Playwright playwright;
-    Browser browser;
-    BrowserContext context;
-    public Page page;
+    protected static Playwright playwright;
+    protected static Browser browser;
+    protected Page page;
 
-    @BeforeEach
-    void setUp() {
+    @BeforeAll
+    static void setup() {
         playwright = Playwright.create();
         browser = playwright.chromium().launch();
-        context = browser.newContext();
-        page = context.newPage();
     }
 
+    @BeforeEach
+    void createPage() {
+        page = browser.newPage();
+    }
 
-
-    @AfterEach
-    void tearDown() {
+    @AfterAll
+    static void teardown() {
+        browser.close();
         playwright.close();
+        // Генерация отчета после всех тестов
+        HtmlReportGenerator.generateReport(
+                CustomReportExtension.getResults(),
+                "test-report.html"
+        );
+    }
+
+    public Page getPage() {
+        return page;
     }
 }
