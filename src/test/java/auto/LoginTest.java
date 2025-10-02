@@ -16,6 +16,6 @@ public class LoginTest extends BaseTest {
         page.locator("#username").fill("tomsmith");
         page.locator("#password").fill("SuperSecretPassword!");
         page.locator("button[type='submit']").click();
-        assertTrue(page.locator(".flash.success").isHidden());
+        assertTrue(page.locator(".flash.success").isVisible());
     }
 }
