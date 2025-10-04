@@ -1,8 +1,9 @@
-package practicalTask21;
+package practicalTask21.tests;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import practicalTask21.TestContext;
 import practicalTask21.pages.DynamicControlPage;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
