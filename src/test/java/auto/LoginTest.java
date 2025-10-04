@@ -6,6 +6,10 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Тесты для страницы авторизации.
+ * Проверяет сценарии входа пользователя в систему.
+ */
 public class LoginTest extends BaseTest {
 
     @Test
